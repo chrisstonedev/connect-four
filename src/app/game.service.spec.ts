@@ -174,4 +174,60 @@ describe('GameService', () => {
       ['', '', '', '', '', ''],
     ]);
   });
+
+  it('should consider it a win with a vertical arrangement in bottom-left corner', () => {
+    service.gameBoard = [
+      ['P', 'P', 'P', 'P', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+    ];
+    const win = service.checkForWinner('P');
+    expect(win).toBeTruthy();
+  });
+
+  it('should consider it a win with a vertical arrangement in top-left corner', () => {
+    service.gameBoard = [
+      ['C', 'C', 'P', 'P', 'P', 'P'],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+    ];
+    const win = service.checkForWinner('P');
+    expect(win).toBeTruthy();
+  });
+
+  it('should consider it a win with a vertical arrangement in bottom-right corner', () => {
+    service.gameBoard = [
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['P', 'P', 'P', 'P', '', ''],
+    ];
+    const win = service.checkForWinner('P');
+    expect(win).toBeTruthy();
+  });
+
+  it('should consider it a win with a vertical arrangement in top-right corner', () => {
+    service.gameBoard = [
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['C', 'C', 'P', 'P', 'P', 'P'],
+    ];
+    const win = service.checkForWinner('P');
+    expect(win).toBeTruthy();
+  });
 });

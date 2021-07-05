@@ -6,7 +6,12 @@ import { Injectable } from '@angular/core';
 export class OpponentService {
   constructor() {}
 
-  makeMove(): number {
-    throw new Error('Method not implemented.');
+  makeMove(gameBoard: ('P' | 'C' | '')[][]): number {
+    for (;;) {
+      const randomChoice = Math.floor(Math.random() * gameBoard.length) + 1;
+      if (gameBoard[randomChoice - 1].includes('')) {
+        return randomChoice;
+      }
+    }
   }
 }

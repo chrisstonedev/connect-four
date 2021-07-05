@@ -22,7 +22,7 @@ export class GameService {
       this.winner = 'player';
       return;
     }
-    var opponentColumnNumber = this.opponentService.makeMove();
+    var opponentColumnNumber = this.opponentService.makeMove(this.gameBoard);
     this.addToGameBoard(opponentColumnNumber - 1, 'C');
     const computerWins = this.checkForWinner('C');
     if (computerWins) {
@@ -45,119 +45,56 @@ export class GameService {
     let column: number;
     let row: number;
 
-    // Check vertically.
     for (column = 0; column < columnCount; column++) {
-      let count: number = 0;
       for (row = 0; row < rowCount; row++) {
-        if (this.gameBoard[column][row] === character) {
-          count++;
-        } else {
-          count = 0;
+        if (this.gameBoard[column][row] !== character) {
+          continue;
         }
-        if (count === 4) {
-          return true;
-        }
-      }
-    }
 
-    // Check horizontally.
-    for (row = 0; row < rowCount; row++) {
-      let count: number = 0;
-      for (column = 0; column < columnCount; column++) {
-        if (this.gameBoard[column][row] === character) {
-          count++;
-        } else {
-          count = 0;
-        }
-        if (count === 4) {
-          return true;
-        }
-      }
-    }
+        if (row < rowCount - 3) {
+          // Check vertically.
+          if (
+            this.gameBoard[column][row + 1] === character &&
+            this.gameBoard[column][row + 2] === character &&
+            this.gameBoard[column][row + 3] === character
+          ) {
+            return true;
+          }
 
-    // Check diagonally.
-    let diagonalShift: number;
+          // Check diagonally (up).
+          if (
+            column < columnCount - 3 &&
+            this.gameBoard[column + 1][row + 1] === character &&
+            this.gameBoard[column + 2][row + 2] === character &&
+            this.gameBoard[column + 3][row + 3] === character
+          ) {
+            return true;
+          }
+        }
 
-    let coordinates = this.getCoordinates('down');
-    let index: number;
-    for (index = 0; index < coordinates.length; index++) {
-      let count: number = 0;
-      for (diagonalShift = 0; ; diagonalShift++) {
-        if (
-          this.gameBoard[coordinates[index].column + diagonalShift] ===
-            undefined ||
-          this.gameBoard[coordinates[index].column + diagonalShift][
-            coordinates[index].row - diagonalShift
-          ] === undefined
-        ) {
-          break;
-        } else if (
-          this.gameBoard[coordinates[index].column + diagonalShift][
-            coordinates[index].row - diagonalShift
-          ] === character
-        ) {
-          count++;
-        } else {
-          count = 0;
-        }
-        if (count === 4) {
-          return true;
-        }
-      }
-    }
+        if (column < columnCount - 3) {
+          // Check horizontally.
+          if (
+            this.gameBoard[column + 1][row] === character &&
+            this.gameBoard[column + 2][row] === character &&
+            this.gameBoard[column + 3][row] === character
+          ) {
+            return true;
+          }
 
-    coordinates = this.getCoordinates('up');
-    for (index = 0; index < coordinates.length; index++) {
-      let count: number = 0;
-      for (diagonalShift = 0; ; diagonalShift++) {
-        if (
-          this.gameBoard[coordinates[index].column + diagonalShift] ===
-            undefined ||
-          this.gameBoard[coordinates[index].column + diagonalShift][
-            coordinates[index].row + diagonalShift
-          ] === undefined
-        ) {
-          break;
-        } else if (
-          this.gameBoard[coordinates[index].column + diagonalShift][
-            coordinates[index].row + diagonalShift
-          ] === character
-        ) {
-          count++;
-        } else {
-          count = 0;
-        }
-        if (count === 4) {
-          return true;
+          // Check diagonally (down).
+          if (
+            row >= 3 &&
+            this.gameBoard[column + 1][row - 1] === character &&
+            this.gameBoard[column + 2][row - 2] === character &&
+            this.gameBoard[column + 3][row - 3] === character
+          ) {
+            return true;
+          }
         }
       }
     }
 
     return false;
   }
-
-  getCoordinates(direction: 'down' | 'up'): Coordinate[] {
-    let array: Coordinate[] = [];
-    let i: number;
-    if (direction == 'down') {
-      for (i = 3; i < rowCount; i++) {
-        array.push({ column: 0, row: i });
-      }
-      for (i = 1; i < columnCount - 3; i++) {
-        array.push({ column: i, row: rowCount - 1 });
-      }
-    } else {
-      for (i = rowCount - 4; i >= 0; i--) {
-        array.push({ column: 0, row: i });
-      }
-      for (i = 1; i < columnCount - 3; i++) {
-        array.push({ column: i, row: 0 });
-      }
-    }
-    return array;
-  }
 }
-type Coordinate = {
-  column: number;
-  row: number;
-};
