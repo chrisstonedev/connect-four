@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { OpponentService } from './opponent.service';
 
-const columnCount = 7;
-const rowCount = 6;
-
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
-  gameBoard: ('P' | 'C' | '')[][] = new Array(columnCount)
+  columnCount = 7;
+  rowCount = 6;
+  gameBoard: ('P' | 'C' | '')[][] = new Array(this.columnCount)
     .fill('')
-    .map(() => new Array(rowCount).fill(''));
+    .map(() => new Array(this.rowCount).fill(''));
   winner: 'player' | 'computer' | null = null;
 
   constructor(private opponentService: OpponentService) {}
@@ -22,6 +21,10 @@ export class GameService {
       this.winner = 'player';
       return;
     }
+    this.waitForOpponentToMakeMove();
+  }
+
+  waitForOpponentToMakeMove() {
     var opponentColumnNumber = this.opponentService.makeMove(this.gameBoard);
     this.addToGameBoard(opponentColumnNumber - 1, 'C');
     const computerWins = this.checkForWinner('C');
@@ -33,7 +36,7 @@ export class GameService {
 
   addToGameBoard(columnIndex: number, character: 'P' | 'C') {
     let i: number;
-    for (i = 0; i < rowCount; i++) {
+    for (i = 0; i < this.rowCount; i++) {
       if (this.gameBoard[columnIndex][i].length === 0) {
         this.gameBoard[columnIndex][i] = character;
         return;
@@ -45,13 +48,13 @@ export class GameService {
     let column: number;
     let row: number;
 
-    for (column = 0; column < columnCount; column++) {
-      for (row = 0; row < rowCount; row++) {
+    for (column = 0; column < this.columnCount; column++) {
+      for (row = 0; row < this.rowCount; row++) {
         if (this.gameBoard[column][row] !== character) {
           continue;
         }
 
-        if (row < rowCount - 3) {
+        if (row < this.rowCount - 3) {
           // Check vertically.
           if (
             this.gameBoard[column][row + 1] === character &&
@@ -63,7 +66,7 @@ export class GameService {
 
           // Check diagonally (up).
           if (
-            column < columnCount - 3 &&
+            column < this.columnCount - 3 &&
             this.gameBoard[column + 1][row + 1] === character &&
             this.gameBoard[column + 2][row + 2] === character &&
             this.gameBoard[column + 3][row + 3] === character
@@ -72,7 +75,7 @@ export class GameService {
           }
         }
 
-        if (column < columnCount - 3) {
+        if (column < this.columnCount - 3) {
           // Check horizontally.
           if (
             this.gameBoard[column + 1][row] === character &&
@@ -96,5 +99,12 @@ export class GameService {
     }
 
     return false;
+  }
+
+  resetBoard() {
+    this.gameBoard = new Array(this.columnCount)
+      .fill('')
+      .map(() => new Array(this.rowCount).fill(''));
+    this.winner = null;
   }
 }
