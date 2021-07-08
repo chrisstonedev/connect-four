@@ -16,18 +16,52 @@ describe('OpponentService', () => {
 
   it('should pick an empty column', () => {
     const gameBoard: ('P' | 'C' | '')[][] = [
-      ['P', 'P', 'P', 'P', 'P', 'P'],
-      ['P', 'P', 'P', 'P', 'P', 'P'],
-      ['P', 'P', 'P', 'P', 'P', 'P'],
+      ['P', 'C', 'P', 'C', 'P', 'C'],
+      ['C', 'P', 'C', 'P', 'C', 'P'],
+      ['P', 'C', 'P', 'C', 'P', 'C'],
       ['', '', '', '', '', ''],
-      ['P', 'P', 'P', 'P', 'P', 'P'],
-      ['P', 'P', 'P', 'P', 'P', 'P'],
-      ['P', 'P', 'P', 'P', 'P', 'P'],
+      ['P', 'C', 'P', 'C', 'P', 'C'],
+      ['C', 'P', 'C', 'P', 'C', 'P'],
+      ['P', 'C', 'P', 'C', 'P', 'C'],
     ];
     let i: number;
     for (i = 0; i < 10; i++) {
       const move = service.makeMove(gameBoard);
       expect(move).toEqual(4);
+    }
+  });
+
+  it('should aim to prevent the player from winning', () => {
+    const gameBoard: ('P' | 'C' | '')[][] = [
+      ['', '', '', '', '', ''],
+      ['C', '', '', '', '', ''],
+      ['P', 'P', 'P', '', '', ''],
+      ['C', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+    ];
+    let i: number;
+    for (i = 0; i < 10; i++) {
+      const move = service.makeMove(gameBoard);
+      expect(move).toEqual(3);
+    }
+  });
+
+  it('should prioritize winning over blocking player', () => {
+    const gameBoard: ('P' | 'C' | '')[][] = [
+      ['', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+      ['P', 'P', 'P', '', '', ''],
+      ['C', '', '', '', '', ''],
+      ['C', '', '', '', '', ''],
+      ['C', '', '', '', '', ''],
+      ['', '', '', '', '', ''],
+    ];
+    let i: number;
+    for (i = 0; i < 10; i++) {
+      const move = service.makeMove(gameBoard);
+      expect(move).toEqual(7);
     }
   });
 });

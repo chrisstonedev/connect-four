@@ -1,13 +1,30 @@
 <h2>{{ title }}</h2>
-<button
-  *ngFor="let column of [1, 2, 3, 4, 5, 6, 7]; index as i"
-  class="game-button"
-  (click)="userClicks(column)"
-  [disabled]="!options || winner || noMoreRoomInColumn(column)"
->
-  ⬇️
-</button>
-<div class="play-area">{{ boardText }}</div>
+<div class="play-area">
+  <div class="table-body">
+    <div class="button-row">
+      <div
+        *ngFor="let column of arrayOfNumbersFromOneToColumnCount"
+        class="game-button"
+      >
+        <button
+          (click)="userClicks(column)"
+          [disabled]="!options || winner || noMoreRoomInColumn(column)"
+        >
+          ⬇️
+        </button>
+      </div>
+    </div>
+    <div *ngFor="let row of boardUi" class="play-area-row">
+      <div
+        *ngFor="let column of row"
+        class="play-area-element"
+        [class]="column.StyleClass"
+      >
+        {{ column.Value }}
+      </div>
+    </div>
+  </div>
+</div>
 <div *ngIf="winner">
   {{ winner }} wins! <button (click)="resetGame()">Play again</button>
 </div>

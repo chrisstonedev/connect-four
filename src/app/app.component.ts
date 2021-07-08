@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { GameService } from './game.service';
 
+type BoardElement = {
+  Value: 'P' | 'C' | '_';
+  StyleClass: string;
+};
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,9 +13,10 @@ import { GameService } from './game.service';
 })
 export class AppComponent {
   title = 'connect-four';
-  boardText: string = '';
   winner: string | null = null;
   options: { startsFirst: 'player' | 'opponent' | 'random' } | null = null;
+  boardUi: BoardElement[][] = [];
+  arrayOfNumbersFromOneToColumnCount: number[] = [];
 
   constructor(private gameService: GameService) {
     this.drawBoard(this.gameService.gameBoard);
@@ -19,20 +25,33 @@ export class AppComponent {
   drawBoard(gameBoard: ('' | 'P' | 'C')[][]) {
     let col: number;
     let row: number;
-    let ui: string = '';
 
-    let firstColumn = gameBoard[0];
-    let topLeft = gameBoard[0][5];
-
-    for (row = gameBoard[0].length - 1; row >= 0; row--) {
-      if (ui.length > 0) ui += '\n';
-      for (col = 0; col < gameBoard.length; col++) {
-        let character: string = gameBoard[col][row];
-        if (character.length === 0) character = ' ';
-        ui += '(' + character + ')';
-      }
+    if (this.arrayOfNumbersFromOneToColumnCount.length !== gameBoard.length) {
+      this.arrayOfNumbersFromOneToColumnCount = Array.from(
+        { length: gameBoard.length },
+        (_, i) => i + 1
+      );
     }
-    this.boardText = ui;
+
+    this.boardUi = [];
+    for (row = gameBoard[0].length - 1; row >= 0; row--) {
+      //if (ui.length > 0) ui += '\n';
+      let elementRow: BoardElement[] = [];
+      for (col = 0; col < gameBoard.length; col++) {
+        switch (gameBoard[col][row]) {
+          case 'C':
+            elementRow.push({ Value: 'C', StyleClass: 'play-x-computer' });
+            break;
+          case 'P':
+            elementRow.push({ Value: 'P', StyleClass: 'play-x-player' });
+            break;
+          default:
+            elementRow.push({ Value: '_', StyleClass: 'play-x-blank' });
+            break;
+        }
+      }
+      this.boardUi.push(elementRow);
+    }
   }
 
   userClicks(column: number) {
