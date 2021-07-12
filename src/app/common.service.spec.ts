@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-
-import { CommonService } from './common.service';
+import { CommonService, GameBoard } from './common.service';
 
 describe('CommonService', () => {
   let service: CommonService;
@@ -15,7 +14,7 @@ describe('CommonService', () => {
   });
 
   it('should consider it a win with a vertical arrangement in bottom-left corner', () => {
-    let gameBoard: ('P' | 'C' | '')[][] = [
+    const gameBoard: GameBoard = [
       ['P', 'P', 'P', 'P', '', ''],
       ['', '', '', '', '', ''],
       ['', '', '', '', '', ''],
@@ -29,7 +28,7 @@ describe('CommonService', () => {
   });
 
   it('should consider it a win with a vertical arrangement in top-left corner', () => {
-    let gameBoard: ('P' | 'C' | '')[][] = [
+    const gameBoard: GameBoard = [
       ['C', 'C', 'P', 'P', 'P', 'P'],
       ['', '', '', '', '', ''],
       ['', '', '', '', '', ''],
@@ -43,7 +42,7 @@ describe('CommonService', () => {
   });
 
   it('should consider it a win with a vertical arrangement in bottom-right corner', () => {
-    let gameBoard: ('P' | 'C' | '')[][] = [
+    const gameBoard: GameBoard = [
       ['', '', '', '', '', ''],
       ['', '', '', '', '', ''],
       ['', '', '', '', '', ''],
@@ -57,7 +56,7 @@ describe('CommonService', () => {
   });
 
   it('should consider it a win with a vertical arrangement in top-right corner', () => {
-    let gameBoard: ('P' | 'C' | '')[][] = [
+    const gameBoard: GameBoard = [
       ['', '', '', '', '', ''],
       ['', '', '', '', '', ''],
       ['', '', '', '', '', ''],

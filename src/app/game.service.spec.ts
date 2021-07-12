@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-
+import { GameBoard } from './common.service';
 import { GameService } from './game.service';
 import { OpponentService } from './opponent.service';
 
@@ -60,11 +60,11 @@ describe('GameService', () => {
     service.userMakesMove(3);
     service.userMakesMove(4);
 
-    expect(service.winner).toEqual(null);
+    expect(service.winner).toBeUndefined();
 
     service.userMakesMove(5);
 
-    expect(service.winner).toEqual('computer');
+    expect(service.winner).toEqual('The computer');
     expect(service.gameBoard).toEqual([
       ['P', '', '', '', '', ''],
       ['C', 'C', 'C', 'C', '', ''],
@@ -83,11 +83,11 @@ describe('GameService', () => {
     service.userMakesMove(4);
     service.userMakesMove(5);
 
-    expect(service.winner).toEqual(null);
+    expect(service.winner).toBeUndefined();
 
     service.userMakesMove(6);
 
-    expect(service.winner).toEqual('player');
+    expect(service.winner).toEqual('The player');
     expect(service.gameBoard).toEqual([
       ['', '', '', '', '', ''],
       ['C', 'C', 'C', '', '', ''],
@@ -118,12 +118,12 @@ describe('GameService', () => {
     opponentChoice = 4;
     service.userMakesMove(3);
 
-    expect(service.winner).toEqual(null);
+    expect(service.winner).toBeUndefined();
 
     opponentChoice = 5;
     service.userMakesMove(4);
 
-    expect(service.winner).toEqual('player');
+    expect(service.winner).toEqual('The player');
 
     //expect(service.winner).toEqual('player');
     expect(service.gameBoard).toEqual([
@@ -156,12 +156,12 @@ describe('GameService', () => {
     opponentChoice = 2;
     service.userMakesMove(3);
 
-    expect(service.winner).toEqual(null);
+    expect(service.winner).toBeUndefined();
 
     opponentChoice = 1;
     service.userMakesMove(2);
 
-    expect(service.winner).toEqual('computer');
+    expect(service.winner).toEqual('The computer');
 
     //expect(service.winner).toEqual('player');
     expect(service.gameBoard).toEqual([
@@ -173,5 +173,37 @@ describe('GameService', () => {
       ['', '', '', '', '', ''],
       ['', '', '', '', '', ''],
     ]);
+  });
+
+  it('should return when no moves are remaining', () => {
+    const gameBoard: GameBoard = [
+      ['P', 'P', 'P', 'C', 'C', 'C'],
+      ['C', 'C', 'C', 'P', 'P', 'P'],
+      ['P', 'P', 'P', 'C', 'C', 'C'],
+      ['C', 'C', 'C', 'P', 'P', 'P'],
+      ['P', 'P', 'P', 'C', 'C', 'C'],
+      ['C', 'C', 'C', 'P', 'P', 'P'],
+      ['P', 'P', 'P', 'C', 'C', 'C'],
+    ];
+
+    expect(service.noMovesRemaining(gameBoard)).toBeTruthy();
+  });
+
+  it('should declare a stalemate when there are no moves remaining', () => {
+    service.gameBoard = [
+      ['P', 'P', 'P', 'C', 'C', 'C'],
+      ['C', 'C', 'C', 'P', 'P', 'P'],
+      ['P', 'P', 'P', 'C', 'C', 'C'],
+      ['C', 'C', 'C', 'P', 'P', ''],
+      ['P', 'P', 'P', 'C', 'C', 'C'],
+      ['C', 'C', 'C', 'P', 'P', 'P'],
+      ['P', 'P', 'P', 'C', 'C', 'C'],
+    ];
+
+    expect(service.noMovesRemaining(service.gameBoard)).toBeFalsy();
+
+    service.userMakesMove(4);
+    expect(service.noMovesRemaining(service.gameBoard)).toBeTruthy();
+    expect(service.winner).toEqual('No one');
   });
 });

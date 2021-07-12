@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { GameService } from './game.service';
+import { GameBoard, GameCharacter } from './common.service';
+import { GameOutcome, GameService } from './game.service';
 
 type BoardElement = {
-  Value: 'P' | 'C' | '_';
-  StyleClass: string;
+  Value: BoardElementValue;
+  StyleClass: BoardElementStyleClass;
 };
 
 @Component({
@@ -13,8 +14,8 @@ type BoardElement = {
 })
 export class AppComponent {
   title = 'connect-four';
-  winner: string | null = null;
-  options: { startsFirst: 'player' | 'opponent' | 'random' } | null = null;
+  winner?: GameOutcome = undefined;
+  options?: { startsFirst: StartsFirst } = undefined;
   boardUi: BoardElement[][] = [];
   arrayOfNumbersFromOneToColumnCount: number[] = [];
 
@@ -22,7 +23,7 @@ export class AppComponent {
     this.drawBoard(this.gameService.gameBoard);
   }
 
-  drawBoard(gameBoard: ('' | 'P' | 'C')[][]) {
+  drawBoard(gameBoard: GameBoard) {
     let col: number;
     let row: number;
 
@@ -35,7 +36,6 @@ export class AppComponent {
 
     this.boardUi = [];
     for (row = gameBoard[0].length - 1; row >= 0; row--) {
-      //if (ui.length > 0) ui += '\n';
       let elementRow: BoardElement[] = [];
       for (col = 0; col < gameBoard.length; col++) {
         switch (gameBoard[col][row]) {
@@ -54,19 +54,16 @@ export class AppComponent {
     }
   }
 
-  userClicks(column: number) {
-    this.gameService.userMakesMove(column);
-    this.drawBoard(this.gameService.gameBoard);
-    if (this.gameService.winner !== null) {
-      this.winner = this.gameService.winner;
-    }
+  noMoreRoomInColumn(column: number): boolean {
+    let columnValues = this.gameService.gameBoard[column - 1];
+    return columnValues[columnValues.length - 1].length > 0;
   }
 
   resetGame() {
     let select1: HTMLSelectElement = <HTMLSelectElement>(
       document.getElementById('starts-first')
     );
-    let startsFirst: 'player' | 'random' | 'opponent';
+    let startsFirst: StartsFirst;
     let startsFirstString: string =
       select1.options[select1.options.selectedIndex].value;
     if (startsFirstString === 'player' || startsFirstString === 'opponent')
@@ -77,7 +74,7 @@ export class AppComponent {
       startsFirst: startsFirst,
     };
 
-    this.winner = null;
+    this.winner = undefined;
     this.gameService.resetBoard();
     this.drawBoard(this.gameService.gameBoard);
 
@@ -93,8 +90,18 @@ export class AppComponent {
     this.drawBoard(this.gameService.gameBoard);
   }
 
-  noMoreRoomInColumn(column: number): boolean {
-    let columnValues = this.gameService.gameBoard[column - 1];
-    return columnValues[columnValues.length - 1].length > 0;
+  userClicks(column: number) {
+    this.gameService.userMakesMove(column);
+    this.drawBoard(this.gameService.gameBoard);
+    if (this.gameService.winner !== null) {
+      this.winner = this.gameService.winner;
+    }
   }
 }
+
+type BoardElementStyleClass =
+  | 'play-x-blank'
+  | 'play-x-computer'
+  | 'play-x-player';
+type BoardElementValue = GameCharacter | '_';
+type StartsFirst = 'player' | 'opponent' | 'random';

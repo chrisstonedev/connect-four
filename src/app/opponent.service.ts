@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CommonService } from './common.service';
+import { CommonService, GameBoard } from './common.service';
 
 @Injectable({
   providedIn: 'root',
@@ -7,7 +7,7 @@ import { CommonService } from './common.service';
 export class OpponentService {
   constructor(private commonService: CommonService) {}
 
-  makeMove(gameBoard: ('P' | 'C' | '')[][]): number {
+  makeMove(gameBoard: GameBoard): number {
     // Look for an opportunity to win.
     let i: number;
     for (i = 0; i < gameBoard.length; i++) {

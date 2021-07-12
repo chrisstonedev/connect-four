@@ -4,10 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class CommonService {
-  checkForWinner(
-    gameBoard: ('P' | 'C' | '')[][],
-    character: 'P' | 'C'
-  ): boolean {
+  checkForWinner(gameBoard: GameBoard, character: GameCharacter): boolean {
     let column: number;
     let row: number;
     let columnCount = gameBoard.length;
@@ -67,10 +64,10 @@ export class CommonService {
   }
 
   addToGameBoard(
-    gameBoard: ('P' | 'C' | '')[][],
+    gameBoard: GameBoard,
     columnIndex: number,
-    character: 'P' | 'C'
-  ): ('P' | 'C' | '')[][] {
+    character: GameCharacter
+  ): GameBoard {
     let i: number;
     let newGameBoard = JSON.parse(JSON.stringify(gameBoard));
     for (i = 0; i < newGameBoard[columnIndex].length; i++) {
@@ -82,3 +79,6 @@ export class CommonService {
     return newGameBoard;
   }
 }
+
+export type GameCharacter = 'P' | 'C';
+export type GameBoard = (GameCharacter | '')[][];

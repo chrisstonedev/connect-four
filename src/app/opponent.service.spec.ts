@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-
+import { GameBoard } from './common.service';
 import { OpponentService } from './opponent.service';
 
 describe('OpponentService', () => {
@@ -15,7 +15,7 @@ describe('OpponentService', () => {
   });
 
   it('should pick an empty column', () => {
-    const gameBoard: ('P' | 'C' | '')[][] = [
+    const gameBoard: GameBoard = [
       ['P', 'C', 'P', 'C', 'P', 'C'],
       ['C', 'P', 'C', 'P', 'C', 'P'],
       ['P', 'C', 'P', 'C', 'P', 'C'],
@@ -32,7 +32,7 @@ describe('OpponentService', () => {
   });
 
   it('should aim to prevent the player from winning', () => {
-    const gameBoard: ('P' | 'C' | '')[][] = [
+    const gameBoard: GameBoard = [
       ['', '', '', '', '', ''],
       ['C', '', '', '', '', ''],
       ['P', 'P', 'P', '', '', ''],
@@ -49,7 +49,7 @@ describe('OpponentService', () => {
   });
 
   it('should prioritize winning over blocking player', () => {
-    const gameBoard: ('P' | 'C' | '')[][] = [
+    const gameBoard: GameBoard = [
       ['', '', '', '', '', ''],
       ['', '', '', '', '', ''],
       ['P', 'P', 'P', '', '', ''],
