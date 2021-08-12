@@ -1,6 +1,6 @@
 # ConnectFour
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.1.1.
+This is a test Connect Four game with an AI opponent to play against.
 
 ## Development server
 
