@@ -1,0 +1,86 @@
+h1 {
+  text-align: center;
+}
+
+.play-area {
+  border-spacing: 0;
+  font-family: "Courier New", Courier, monospace;
+  margin: 0 auto;
+
+  .game-button {
+    background-color: lightgray;
+    display: table-cell;
+    margin: 4px 2px 10px 2px;
+    padding: 2px 0;
+    width: 25px;
+  }
+
+  .play-area-element {
+    border: 2px solid black;
+    padding: 10px;
+    display: table-cell;
+
+    &.play-x-player {
+      background-color: yellow;
+    }
+
+    &.play-x-computer {
+      background-color: red;
+    }
+
+    &.play-x-blank {
+      background-color: darkgray;
+    }
+  }
+}
+
+.start-game-dialog {
+  background: #0004;
+  border-radius: 8px;
+  margin: 16px auto;
+  padding: 8px 16px;
+  width: fit-content;
+
+  button {
+    background: #22b;
+    color: #eef;
+  }
+}
+
+.winner-dialog {
+  background: #0f09;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  margin: 16px auto;
+  padding: 8px 16px;
+  width: fit-content;
+
+  h2 {
+    margin-top: 0;
+  }
+
+  button {
+    background: #22b;
+    color: #eef;
+    margin: 0 auto;
+  }
+}
+
+.options-dialog {
+  background: #012e;
+  color: #fff;
+  border-radius: 8px;
+  padding: 8px 16px;
+  margin: 0 auto;
+  width: fit-content;
+
+  h2 {
+    margin-top: 0;
+    text-align: center;
+  }
+
+  #starts-first {
+    margin-left: 16px;
+  }
+}

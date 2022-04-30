@@ -16,7 +16,7 @@ export class GameService {
   constructor(
     private opponentService: OpponentService,
     private commonService: CommonService
-  ) {}
+  ) { }
 
   checkForGameEndingCondition(
     character: GameCharacter,

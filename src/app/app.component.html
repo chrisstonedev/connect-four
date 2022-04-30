@@ -1,36 +1,28 @@
-<h2>{{ title }}</h2>
-<div class="play-area">
-  <div class="table-body">
-    <div class="button-row">
-      <div
-        *ngFor="let column of arrayOfNumbersFromOneToColumnCount"
-        class="game-button"
-      >
-        <button
-          (click)="userClicks(column)"
-          [disabled]="!options || winner || noMoreRoomInColumn(column)"
-        >
-          ⬇️
-        </button>
-      </div>
-    </div>
-    <div *ngFor="let row of boardUi" class="play-area-row">
-      <div
-        *ngFor="let column of row"
-        class="play-area-element"
-        [class]="column.StyleClass"
-      >
-        {{ column.Value }}
-      </div>
-    </div>
-  </div>
+<h1>{{ title }}</h1>
+<table class="play-area">
+  <tr>
+    <th *ngFor="let column of arrayOfNumbersFromOneToColumnCount" class="game-button">
+      <button (click)="userClicks(column)" [disabled]="!options || winner || noMoreRoomInColumn(column)">
+        ⬇️
+      </button>
+    </th>
+  </tr>
+  <tr *ngFor="let row of boardUi">
+    <td *ngFor="let column of row" [class]="column.StyleClass" class="play-area-element">
+      {{ column.Value }}
+    </td>
+  </tr>
+</table>
+<div *ngIf="!options" class="start-game-dialog">
+  <button (click)="resetGame()">Start game</button>
 </div>
-<div *ngIf="winner">
-  {{ winner }} wins! <button (click)="resetGame()">Play again</button>
+<div *ngIf="winner" class="winner-dialog">
+  <h2>{{ winner }} wins!</h2>
+  <button (click)="resetGame()">Play again</button>
 </div>
-<div *ngIf="!options"><button (click)="resetGame()">Start game</button></div>
-<div *ngIf="!options || winner">
-  <h3>Options</h3>
+<div *ngIf="!options || winner" class="options-dialog">
+  <h2>Options</h2>
+  <label for="starts-first">Who starts first?</label>
   <select id="starts-first">
     <option value="random">Random</option>
     <option value="player">Player</option>

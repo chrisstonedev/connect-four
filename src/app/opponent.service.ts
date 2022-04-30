@@ -5,7 +5,7 @@ import { CommonService, GameBoard } from './common.service';
   providedIn: 'root',
 })
 export class OpponentService {
-  constructor(private commonService: CommonService) {}
+  constructor(private commonService: CommonService) { }
 
   makeMove(gameBoard: GameBoard): number {
     // Look for an opportunity to win.
@@ -26,7 +26,7 @@ export class OpponentService {
     }
 
     // Pick a random column.
-    for (;;) {
+    for (; ;) {
       const randomChoice = Math.floor(Math.random() * gameBoard.length) + 1;
       if (gameBoard[randomChoice - 1].includes('')) {
         return randomChoice;
