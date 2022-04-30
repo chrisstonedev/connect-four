@@ -2,23 +2,27 @@ h1 {
   text-align: center;
 }
 
-.play-area {
-  border-spacing: 0;
+table {
+  background: #222;
+  border: #222 solid;
+  border-width: 8px 32px 16px;
+  border-spacing: 2px;
   font-family: "Courier New", Courier, monospace;
   margin: 0 auto;
 
-  .game-button {
-    background-color: lightgray;
-    display: table-cell;
-    margin: 4px 2px 10px 2px;
-    padding: 2px 0;
-    width: 25px;
+  th {
+    button {
+      margin-bottom: 4px;
+      padding: 8px 0;
+      width: 100%;
+    }
   }
 
-  .play-area-element {
-    border: 2px solid black;
-    padding: 10px;
-    display: table-cell;
+  td {
+    border-radius: 16px;
+    height: 32px;
+    text-align: center;
+    width: 32px;
 
     &.play-x-player {
       background-color: yellow;
@@ -30,6 +34,7 @@ h1 {
 
     &.play-x-blank {
       background-color: darkgray;
+      color: darkgray;
     }
   }
 }

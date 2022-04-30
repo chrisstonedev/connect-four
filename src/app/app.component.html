@@ -1,14 +1,14 @@
 <h1>{{ title }}</h1>
-<table class="play-area">
+<table>
   <tr>
-    <th *ngFor="let column of arrayOfNumbersFromOneToColumnCount" class="game-button">
+    <th *ngFor="let column of arrayOfNumbersFromOneToColumnCount">
       <button (click)="userClicks(column)" [disabled]="!options || winner || noMoreRoomInColumn(column)">
         ⬇️
       </button>
     </th>
   </tr>
   <tr *ngFor="let row of boardUi">
-    <td *ngFor="let column of row" [class]="column.StyleClass" class="play-area-element">
+    <td *ngFor="let column of row" [class]="column.StyleClass">
       {{ column.Value }}
     </td>
   </tr>
